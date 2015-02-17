@@ -1,4 +1,5 @@
 var Slack = require('slack-client');
+var beerapi = require('./beerapi.js');
 
 var token = process.env.SLACK_TOKEN;
 var autoReconnect = true;
@@ -19,12 +20,18 @@ slack.on('connect', function(){
 slack.on('message', function(message){
   var channel = slack.getChannelGroupOrDMByID(message.channel);
   var user = slack.getUserByID(message.user);
-  var text = message.text;
+  var beerName = message.text;
 
   // respond to the sender with the same message
-  channel.send(text);
+  beerapi.getDescription(beerName, function(description) {
+    channel.send(description);
+  });
 
   console.log("!!!! Responded to %s.", user.name);
+});
+
+slack.on('error', function(error) {
+  console.log("Error", error);
 });
 
 slack.login();
