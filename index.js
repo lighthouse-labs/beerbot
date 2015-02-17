@@ -21,11 +21,12 @@ slack.on('message', function(message){
   var channel = slack.getChannelGroupOrDMByID(message.channel);
   var user = slack.getUserByID(message.user);
   var beerName = message.text;
+  var description;
 
-  // respond to the sender with the same message
-  beerapi.getDescription(beerName, function(description) {
-    channel.send(description);
-  });
+  // This will not work.
+  // Run the code and look at the console.log statements to understand why.
+  description = beerapi.getDescription(beerName);
+  channel.send(description);
 
   console.log("!!!! Responded to %s.", user.name);
 });
