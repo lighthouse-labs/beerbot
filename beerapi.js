@@ -1,7 +1,7 @@
 request = require('request');
 
 function getBeer(query, callback) {
-  var endpoint = 'http://api.brewerydb.com/v2/search?key=' + process.env.BEER_API_KEY + '&q=' + query + '&type=beer';
+  var endpoint = 'http://api.brewerydb.com/v2/search?key=' + process.env.BREWERY_API_KEY + '&q=' + query + '&type=beer';
   request(endpoint, function(error, response, body) {
     var beers, beer, name, description, abv;
 

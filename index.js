@@ -1,7 +1,7 @@
 Slack = require('slack-client');
 getBeer = require('./beerapi');
 
-var token = process.env.SLACK_BOT_KEY;
+var token = process.env.SLACK_TOKEN;
 var autoReconnect = true;
 var autoMark = true;
 
