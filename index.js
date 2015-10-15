@@ -1,4 +1,5 @@
 SlackClient = require('slack-client');
+beerapi = require('./beerapi');
 
 console.log("Starting beerbot server");
 
@@ -39,6 +40,17 @@ slack.on('message', function(message) {
 
   if(message.type === 'message' && !channel.is_general) {
     channel.send(message.text + "!!!");
+    beerapi.getBeerDescription(message.text, function(error, description) {
+      console.log("Beer description for ", message.text, " is ", description);
+      if(error) {
+        channel.send("There was an error getting your beer info");
+      } else {
+        channel.send(description);
+      }
+    });
+  } else {
+    console.log("Message is not message type", message);
+  }
 });
 
 slack.login(); // start connection to Slack websockets server
