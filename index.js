@@ -18,7 +18,7 @@ slack.on('open', function() {
       var channel = slack.channels[id];
       if (channel.is_member) {
         console.log("Leaving channel " + channel.name);
-        channel.leave();
+        channel.leave(); // This doesn't work! That's why we are checking the !channel.is_general in the 'message' callback.
       }
     }
   }
@@ -31,6 +31,14 @@ slack.on('open', function() {
 slack.on('error', function(error) {
   console.error('Error in Slack: ', error);
 });
+
+slack.on('message', function(message) {
+  // console.log("Message came in: ", message);
+
+  var channel = slack.getChannelGroupOrDMByID(message.channel);
+
+  if(message.type === 'message' && !channel.is_general) {
+    channel.send(message.text + "!!!");
 });
 
 slack.login(); // start connection to Slack websockets server
